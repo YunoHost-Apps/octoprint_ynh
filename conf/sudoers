@@ -1,0 +1,5 @@
+# Grant sudo permissions to the user to manage his own systemd service
+octoprint ALL=(ALL) NOPASSWD: /bin/systemctl stop octoprint@octoprint.service
+octoprint ALL=(ALL) NOPASSWD: /bin/systemctl start octoprint@octoprint.service
+octoprint ALL=(ALL) NOPASSWD: /bin/systemctl restart octoprint@octoprint.service
+octoprint ALL=(ALL) NOPASSWD: /bin/systemctl status octoprint@octoprint.service

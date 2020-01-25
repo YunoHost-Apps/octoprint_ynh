@@ -1,0 +1,10 @@
+[Unit]
+Description=Octoprint
+After=network-online.target
+
+[Service]
+Type=simple
+User=octoprint
+ExecStart=/opt/yunohost/octoprint/bin/octoprint serve
+[Install]
+WantedBy=multi-user.target 

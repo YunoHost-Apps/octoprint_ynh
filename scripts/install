@@ -1,0 +1,91 @@
+#!/bin/bash
+
+source _common.sh
+source /usr/share/yunohost/helpers
+
+# manage script failure
+ynh_abort_if_errors
+
+# retrieve arguments
+app=$YNH_APP_INSTANCE_NAME
+domain=$YNH_APP_ARG_DOMAIN
+is_public=$YNH_APP_ARG_IS_PUBLIC
+
+# definie useful vars
+final_path="/opt/yunohost/$app"
+home_path="/home/$app"
+data_path="/home/$app/.$app"
+
+# check domain/path availability
+ynh_script_progression --message="Validating installation parameters..."
+path_url=$(ynh_normalize_url_path "/")
+ynh_webpath_available "$domain" "$path_url" || ynh_die "$domain/$path_url is not available, please use an other domain."
+ynh_webpath_register $app "$domain" "$path_url"
+
+# add required packages
+ynh_script_progression --message="Installing dependencies..."
+ynh_install_app_dependencies "$PKG_DEPENDENCIES"
+
+# save app settings
+ynh_script_progression --message="Storing installation settings..."
+ynh_app_setting_set $app domain "$domain"
+ynh_app_setting_set $app is_public $is_public
+
+# find a free port & open it
+ynh_script_progression --message="Looking for a free port and opening it..."
+port=$(ynh_find_port 5000)
+ynh_app_setting_set $app port $port
+ynh_exec_fully_quiet yunohost firewall allow TCP $port
+
+# create a dedicated system user
+ynh_script_progression --message="Creating dedicated user, rights and folders..."
+ynh_system_user_create $app
+## grant sudo permissions to the user to manage his own systemd service
+myynh_create_dir "/etc/sudoers.d"
+cp "../conf/sudoers" "/etc/sudoers.d/$app"
+## create a directory for the installation of Octoprint
+myynh_create_dir "$final_path"
+chown $app: "$final_path"
+## create a directory for the datas of Octoprint
+myynh_create_dir "$data_path"
+chown -R $app: "$home_path"
+
+# installation in a virtual environment
+ynh_script_progression --message="Installing Octoprint in a virtual environment..."
+exec_as $app -H -s /bin/bash -c " \
+	echo 'create the virtual environment' \
+		&& python3 -m venv "$final_path" \
+	&& echo 'activate the virtual environment' \
+		&& source "$final_path/bin/activate" \
+	&& echo 'install a required python package' \
+		&& pip install --upgrade wheel \
+	&& echo 'install Octoprint' \
+		&& pip install --upgrade $app \
+	"
+
+# set default configuration files
+ynh_script_progression --message="Configuring the installation..."
+chown -R $app: "$data_path"
+
+# setup up autostart using systemd
+ynh_script_progression --message="Adding the dedicated service..."
+ynh_add_systemd_config "$app@$app"
+## add service in admin panel
+yunohost service add "$app@$app" --log "$data_path/octoprint.log" --description "Octoprint server"
+
+# enable & restart systemd service
+ynh_script_progression --message="Starting the Octoprint server..."
+ynh_system_reload --service_name="$app@$app" --action=enable
+ynh_check_starting --line_to_match="Octoprint initialized" --app_log="systemd" --timeout=1000 --service_name="$app@$app"
+
+# create a dedicated nginx config
+ynh_script_progression --message="Configuring nginx web server..."
+ynh_add_nginx_config
+## reload nginx
+ynh_system_reload --service_name=nginx
+
+# unprotect app access if public
+ynh_script_progression --message="Configuring SSOwat..."
+[ $is_public -eq 1 ] && ynh_app_setting_set $app unprotected_uris "/"
+
+ynh_script_progression --message="Installation of $app completed" --last

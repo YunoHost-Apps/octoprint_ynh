@@ -1,0 +1,60 @@
+#!/bin/bash
+
+source _common.sh
+source /usr/share/yunohost/helpers
+
+# manage script failure
+ynh_abort_if_errors
+
+# retrieve arguments
+app=$YNH_APP_INSTANCE_NAME
+domain=$(ynh_app_setting_get $app domain)
+port=$(ynh_app_setting_get $app port)
+is_public=$(ynh_app_setting_get $app is_public)
+
+# definie useful vars
+final_path="/opt/yunohost/$app"
+
+# use prior backup and restore on error only if backup feature exists on installed instance
+if [ -f "/etc/yunohost/apps/$app/scripts/backup" ] ; then
+  ynh_backup_before_upgrade # Backup the current version of the app
+  ynh_clean_setup () {
+      ynh_restore_upgradebackup
+  }
+fi
+
+# grant sudo permissions to the user to manage his own systemd service
+myynh_create_dir "/etc/sudoers.d"
+cp "../conf/sudoers" "/etc/sudoers.d/$app"
+
+# add required packages
+ynh_install_app_dependencies "$PKG_DEPENDENCIES"
+
+# stop systemd service
+ynh_system_reload --service_name="$app@$app" --action=stop
+ynh_system_reload --service_name="$app@$app" --action=disable
+
+# upgrade
+exec_as "$app" -H -s /bin/bash -c " \
+	echo 'create the virtual environment' \
+		&& python3 -m venv $final_path \
+	&& echo 'activate the virtual environment' \
+		&& source $final_path/bin/activate \
+	&& echo 'install a required python package' \
+		&& pip install --upgrade wheel \
+	&& echo 'install Octoprint' \
+		&& pip install --upgrade $app==0.96.5 \
+	"
+
+# setup up autostart using systemd
+ynh_add_systemd_config "$app@$app"
+
+# enable & restart systemd service
+ynh_system_reload --service_name="$app@$app" --action=enable
+ynh_check_starting --line_to_match="Octoprint initialized" --app_log="systemd" --timeout=1000 --service_name="$app@$app"
+
+# create a dedicated nginx config
+ynh_add_nginx_config
+
+# reload nginx
+ynh_system_reload --service_name=nginx

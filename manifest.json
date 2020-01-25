@@ -1,0 +1,49 @@
+{
+  "name": "Octoprint",
+  "id": "octoprint",
+  "packaging_format": 1,
+   "description": {
+    "en": "3D printing webserver",
+    "fr": "Serveur d'impression 3D"
+  },
+  "version": "1.0.0",
+  "url": "https://github.com/Tropicao/octoprint_ynh",
+  "license": "Apache-2.0",
+  "maintainer": {
+    "name": "Tropicao",
+    "email": "alexis.lothore@gmail.com"
+  },
+  "requirements": {
+        "yunohost": ">= 3.1"
+  },
+  "multi_instance": false,
+  "services": [
+      "nginx"
+  ],
+  "arguments": {
+    "install": [
+      {
+        "name": "domain",
+        "type": "domain",
+        "ask": {
+          "en": "Choose a domain for Octoprint",
+          "fr": "Choisissez un domaine pour Octoprint"
+        },
+        "example": "domain.org"
+      },
+      {
+        "name": "is_public",
+        "type": "boolean",
+        "ask": {
+          "en": "Should this application be public ? (if so, your 3D printer will be accessible by anyone on internet)",
+          "fr": "Est-ce que cette application doit être visible publiquement ? (dans ce cas, n'importe qui sur internet pourra utiliser votre imprimante)"
+        },
+        "help": {
+          "en": "If public, your 3D printer will be accessible by anyone on internet",
+          "fr": "Dans ce cas, n'importe qui sur internet pourra utiliser votre imprimante"
+        },
+        "default": true
+      }
+    ]
+  }
+}

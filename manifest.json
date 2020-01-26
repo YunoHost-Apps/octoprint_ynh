@@ -42,7 +42,7 @@
           "en": "If public, your 3D printer will be accessible by anyone on internet",
           "fr": "Dans ce cas, n'importe qui sur internet pourra utiliser votre imprimante"
         },
-        "default": true
+        "default": false
       }
     ]
   }

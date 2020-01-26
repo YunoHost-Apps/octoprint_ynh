@@ -3,7 +3,7 @@
 #
 
 # Package dependencies
-PKG_DEPENDENCIES="python3 python3-venv python3-pip build-essential libssl-dev libffi-dev python3-dev"
+PKG_DEPENDENCIES="python python-pip python-dev python-setuptools python-virtualenv libyaml-dev build-essential"
 
 # Check if directory/file already exists (path in argument)
 myynh_check_path () {

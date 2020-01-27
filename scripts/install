@@ -40,6 +40,8 @@ ynh_exec_fully_quiet yunohost firewall allow TCP $port
 # create a dedicated system user
 ynh_script_progression --message="Creating dedicated user, rights and folders..."
 ynh_system_user_create $app
+# add user to group dialout to allow ttyUSB usage
+usermod -a -G dialout $app
 ## grant sudo permissions to the user to manage his own systemd service
 myynh_create_dir "/etc/sudoers.d"
 cp "../conf/sudoers" "/etc/sudoers.d/$app"

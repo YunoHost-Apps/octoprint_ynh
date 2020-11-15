@@ -56,9 +56,9 @@ chown -R $app: "$home_path"
 ynh_script_progression --message="Installing Octoprint in a virtual environment..."
 exec_as $app -H -s /bin/bash -c " \
 	echo 'create the virtual environment' \
-		&& virtualenv "$final_path" \
+		&& virtualenv -p $(which python3) "$final_path" \
 	&& echo 'install Octoprint' \
-		&& "$final_path"/bin/pip install $app \
+		&& "$final_path"/bin/pip3 install $app \
 	"
 
 # set default configuration files

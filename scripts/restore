@@ -8,28 +8,28 @@ source ../settings/scripts/_common.sh
 source /usr/share/yunohost/helpers
 
 # manage script failure
-ynh_abort_if_errors
+#REMOVEME? ynh_abort_if_errors
 
 # retrieve arguments
-app=$YNH_APP_INSTANCE_NAME
-domain=$(ynh_app_setting_get "$app" domain)
-port=$(ynh_app_setting_get "$app" port)
+#REMOVEME? app=$YNH_APP_INSTANCE_NAME
+#REMOVEME? domain=$(ynh_app_setting_get "$app" domain)
+#REMOVEME? port=$(ynh_app_setting_get "$app" port)
 
 # definie useful vars
-final_path="/opt/yunohost/$app"
+#REMOVEME? install_dir="/opt/yunohost/$app"
 home_path="/home/$app"
 data_path="/home/$app/.$app"
 
 # check domain/path availability
-path_url=$(ynh_normalize_url_path "/")
-ynh_webpath_available $domain $path_url || ynh_die "$domain/$path_url is not available, please use an other domain."
+path=$(ynh_normalize_url_path "/")
+#REMOVEME? ynh_webpath_available $domain $path || ynh_die "$domain/$path is not available, please use an other domain."
 
 # add required packages
-ynh_install_app_dependencies "$PKG_DEPENDENCIES"
+#REMOVEME? ynh_install_app_dependencies "$PKG_DEPENDENCIES"
 
 # restore dedicated system user
 ynh_system_user_exists "$app" && ynh_die "User $app is not available"
-ynh_system_user_create "$app"
+#REMOVEME? ynh_system_user_create "$app"
 
 # restore conf files
 ynh_restore_file "/etc/nginx/conf.d/$domain.d/$app.conf"
@@ -37,10 +37,10 @@ ynh_restore_file "/etc/sudoers.d/$app"
 ynh_restore_file "/etc/systemd/system/$app@$app.service"
 
 # restore source
-if [ ! -d "$final_path" ]; then
-        ynh_restore_file "$final_path"
+if [ ! -d "$install_dir" ]; then
+        ynh_restore_file "$install_dir"
 else
-        ynh_die "There is already a directory: $final_path"
+        ynh_die "There is already a directory: $install_dir"
 fi
 
 # restore data
@@ -52,7 +52,7 @@ else
 fi
 
 # restore port
-[ $port -eq $(ynh_find_port $port) ] || ynh_die "$port is not available, please use an other port"
+#REMOVEME? [ $port -eq $(ynh_find_port $port) ] || ynh_die "$port is not available, please use an other port"
 ynh_exec_fully_quiet yunohost firewall allow TCP $port
 
 # add service in admin panel

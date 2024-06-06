@@ -4,22 +4,22 @@ source _common.sh
 source /usr/share/yunohost/helpers
 
 # manage script failure
-ynh_abort_if_errors
+#REMOVEME? ynh_abort_if_errors
 
 # retrieve arguments
-app=$YNH_APP_INSTANCE_NAME
-domain=$(ynh_app_setting_get $app domain)
-port=$(ynh_app_setting_get $app port)
-is_public=$(ynh_app_setting_get $app is_public)
+#REMOVEME? app=$YNH_APP_INSTANCE_NAME
+#REMOVEME? domain=$(ynh_app_setting_get $app domain)
+#REMOVEME? port=$(ynh_app_setting_get $app port)
+#REMOVEME? #REMOVEME? is_public=$(ynh_app_setting_get $app is_public)
 
 # definie useful vars
-final_path="/opt/yunohost/$app"
+#REMOVEME? install_dir="/opt/yunohost/$app"
 
 # use prior backup and restore on error only if backup feature exists on installed instance
 if [ -f "/etc/yunohost/apps/$app/scripts/backup" ] ; then
-  ynh_backup_before_upgrade # Backup the current version of the app
-  ynh_clean_setup () {
-      ynh_restore_upgradebackup
+#REMOVEME?   ynh_backup_before_upgrade # Backup the current version of the app
+#REMOVEME?   ynh_clean_setup () {
+#REMOVEME?       ynh_restore_upgradebackup
   }
 fi
 
@@ -28,7 +28,7 @@ myynh_create_dir "/etc/sudoers.d"
 cp "../conf/sudoers" "/etc/sudoers.d/$app"
 
 # add required packages
-ynh_install_app_dependencies "$PKG_DEPENDENCIES"
+#REMOVEME? ynh_install_app_dependencies "$PKG_DEPENDENCIES"
 
 # stop systemd service
 ynh_system_reload --service_name="$app@$app" --action=stop
@@ -37,9 +37,9 @@ ynh_system_reload --service_name="$app@$app" --action=disable
 # upgrade
 exec_as "$app" -H -s /bin/bash -c " \
 	echo 'create the virtual environment' \
-		&& python3 -m venv $final_path \
+		&& python3 -m venv $install_dir \
 	&& echo 'activate the virtual environment' \
-		&& source $final_path/bin/activate \
+		&& source $install_dir/bin/activate \
 	&& echo 'install a required python package' \
 		&& pip install --upgrade wheel \
 	&& echo 'install Octoprint' \

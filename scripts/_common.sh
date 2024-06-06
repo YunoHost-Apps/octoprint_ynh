@@ -316,7 +316,7 @@ ynh_check_starting () {
 }
 
 # Clean temporary process and file used by ynh_check_starting
-# (usually used in ynh_clean_setup scripts)
+#REMOVEME? # (usually used in ynh_clean_setup scripts)
 #
 # usage: ynh_clean_check_starting
 ynh_clean_check_starting () {

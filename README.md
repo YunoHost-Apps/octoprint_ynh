@@ -4,39 +4,35 @@ It shall NOT be edited by hand.
 -->
 
 <h1>
-  <img src="https://raw.githubusercontent.com/YunoHost/apps/main/logos/fittrackee.png" width="32px" alt="Logo of FitTrackee">
-  FitTrackee, packaged for YunoHost
+  <img src="https://raw.githubusercontent.com/YunoHost/apps/main/logos/octoprint.png" width="32px" alt="Logo of OctoPrint">
+  OctoPrint, packaged for YunoHost
 </h1>
 
-Self-hosted outdoor activity tracker 🚴
+Snappy web interface for your 3D printer
 
-[![🌐 Official app website](https://img.shields.io/badge/Official_app_website-darkgreen?style=for-the-badge)](https://docs.fittrackee.org/)
-[![Version: 1.2.2~ynh2](https://img.shields.io/badge/Version-1.2.2~ynh2-rgb(18,138,11)?style=for-the-badge)](https://ci-apps.yunohost.org/ci/apps/fittrackee/)
+[![🌐 Official app website](https://img.shields.io/badge/Official_app_website-darkgreen?style=for-the-badge)](https://docs.octoprint.org/en/main/)
+[![Version: 1.11.7~ynh1](https://img.shields.io/badge/Version-1.11.7~ynh1-rgb(18,138,11)?style=for-the-badge)](https://ci-apps.yunohost.org/ci/apps/octoprint/)
 
 <div align="center">
-<a href="https://apps.yunohost.org/app/fittrackee"><img height="100px" src="https://github.com/YunoHost/yunohost-artwork/raw/refs/heads/main/badges/neopossum-badges/badge_more_info_on_the_appstore.svg"/></a>
-<a href="https://github.com/YunoHost-Apps/fittrackee_ynh/issues"><img height="100px" src="https://github.com/YunoHost/yunohost-artwork/raw/refs/heads/main/badges/neopossum-badges/badge_report_an_issue.svg"/></a>
+<a href="https://apps.yunohost.org/app/octoprint"><img height="100px" src="https://github.com/YunoHost/yunohost-artwork/raw/refs/heads/main/badges/neopossum-badges/badge_more_info_on_the_appstore.svg"/></a>
+<a href="https://github.com/YunoHost-Apps/octoprint_ynh/issues"><img height="100px" src="https://github.com/YunoHost/yunohost-artwork/raw/refs/heads/main/badges/neopossum-badges/badge_report_an_issue.svg"/></a>
 </div>
-
-
-## Screenshots
-![Screenshot of FitTrackee](./doc/screenshots/fittrackee.png)
 
 ## 📦 Developer info
 
-[![Automatic tests level](https://apps.yunohost.org/badge/cilevel/fittrackee)](https://ci-apps.yunohost.org/ci/apps/fittrackee/)
+[![Automatic tests level](https://apps.yunohost.org/badge/cilevel/octoprint)](https://ci-apps.yunohost.org/ci/apps/octoprint/)
 
-🛠️ Upstream FitTrackee repository: <https://github.com/SamR1/FitTrackee>
+🛠️ Upstream OctoPrint repository: <https://github.com/OctoPrint/OctoPrint>
 
-Pull request are welcome and should target the [`testing` branch](https://github.com/YunoHost-Apps/fittrackee_ynh/tree/testing).
+Pull request are welcome and should target the [`testing` branch](https://github.com/YunoHost-Apps/octoprint_ynh/tree/testing).
 
 The `testing` branch can be tested using:
 ```
 # fresh install:
-sudo yunohost app install https://github.com/YunoHost-Apps/fittrackee_ynh/tree/testing
+sudo yunohost app install https://github.com/YunoHost-Apps/octoprint_ynh/tree/testing
 
 # upgrade an existing install:
-sudo yunohost app upgrade fittrackee -u https://github.com/YunoHost-Apps/fittrackee_ynh/tree/testing
+sudo yunohost app upgrade octoprint -u https://github.com/YunoHost-Apps/octoprint_ynh/tree/testing
 ```
 
 ### 📚 App packaging documentation

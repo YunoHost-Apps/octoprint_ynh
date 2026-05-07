@@ -1,47 +1,30 @@
 #!/bin/bash
-# to test the functionnality :
-# yunohost app remove octoprint
 
-source _common.sh
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
 source /usr/share/yunohost/helpers
 
-# retrieve arguments
-app=$YNH_APP_INSTANCE_NAME
-domain=$(ynh_app_setting_get "$app" domain)
-port=$(ynh_app_setting_get $app port)
+#=================================================
+# REMOVE SYSTEM CONFIGURATIONS
+#=================================================
+ynh_script_progression "Removing system configurations related to $app..."
 
-# definie useful vars
-final_path="/opt/yunohost/$app"
-home_path="/home/$app"
+#ynh_config_remove_fail2ban
 
-# remove metapackage and its dependencies
-ynh_remove_app_dependencies
+ynh_config_remove_logrotate
 
-# remove the app directory securely
-ynh_secure_remove "$final_path"
-
-# remove the dedicated nginx config
-ynh_remove_nginx_config
-
-# remove a directory securely
-ynh_secure_remove "$home_path"
-
-# remove service from admin panel
-if yunohost service status | grep -q "$app@$app"
-then
-	yunohost service remove "$app@$app"
+if ynh_hide_warnings yunohost service status $app >/dev/null; then
+	yunohost service remove $app
 fi
 
-# remove systemd service
-ynh_system_reload --service_name="$app@$app" --action=stop
-ynh_system_reload --service_name="$app@$app" --action=disable
-ynh_secure_remove "/etc/systemd/system/$app@$app.service"
+ynh_config_remove_systemd "${app}"
 
-# close port
-ynh_exec_fully_quiet yunohost firewall disallow TCP $port
+ynh_config_remove_nginx
 
-# delete a system user
-ynh_system_user_delete "$app"
+#=================================================
+# END OF SCRIPT
+#=================================================
 
-# remove sudoers file
-ynh_secure_remove "/etc/sudoers.d/$app"
+ynh_script_progression "Removal of $app completed"

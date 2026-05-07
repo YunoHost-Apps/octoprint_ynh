@@ -1,0 +1,68 @@
+#:schema https://raw.githubusercontent.com/YunoHost/apps/master/schemas/manifest.v2.schema.json
+
+packaging_format = 2
+
+id = "octoprint"
+name = "OctoPrint"
+description.en = "Snappy web interface for your 3D printer"
+
+version = "1.11.7~ynh1"
+
+maintainers = ["Thovi98"]
+
+[upstream]
+license = "AGPL-3.0"
+website = "https://docs.octoprint.org/en/main/"
+admindoc = "https://docs.octoprint.org/en/main/"
+code = "https://github.com/OctoPrint/OctoPrint"
+
+[integration]
+yunohost = ">= 12.1.39"
+helpers_version = "2.1"
+architectures = "all"
+multi_instance = true
+
+ldap = true
+sso = true
+
+disk = "50M"
+ram.build = "50M"
+ram.runtime = "50M"
+
+[install]
+    [install.domain]
+    type = "domain"
+
+    [install.init_main_permission]
+    type = "group"
+    default = "visitors"
+
+    [install.admin]
+    type = "user"
+    help.en = "You will have to login with the email of this user and the password you’ll set below. ❗Your username has to be minimum 3 caraters long."
+    help.fr = "Vous devrez vous connecter avec l’adresse courriel de cet utilisateur et le mot de passe configuré ci-dessous. ❗Votre nom d’utilisateur doit être long d’au moins 3 caractères."
+
+    [install.password]
+    help.en = "Choose a password for your admin user here."
+    help.gl = "Elixe un contrasinal para a usuaria Admin en FitTrackee."
+    help.ca = "Triar una contrasenya per a l'usuari d'administració."
+    help.fr = "Choisissez un mot de passe pour l’utilisateur admin ici."
+    type = "password"
+
+  [resources]
+    [resources.system_user]
+    allow_email = true
+
+    [resources.install_dir]
+
+    [resources.data_dir]
+
+    [resources.permissions]
+    main.url = "/"
+
+    [resources.ports]
+    main.default = 5000
+
+    [resources.apt]
+    packages = "python3, python3-venv"
+

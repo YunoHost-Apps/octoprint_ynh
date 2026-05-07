@@ -1,24 +1,55 @@
 #!/bin/bash
-# to test the functionnality :
-# yunohost backup create -n "octoprint-test" --apps octoprint
-# yunohost backup delete octoprint-test
+
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
 
 source /usr/share/yunohost/helpers
 
-# manage script failure
-ynh_abort_if_errors
+ynh_print_info "Declaring files to be backed up..."
 
-# retrieve arguments
-app=$YNH_APP_INSTANCE_NAME
-domain=$(ynh_app_setting_get "$app" domain)
+#=================================================
+# BACKUP THE APP MAIN DIR
+#=================================================
 
-# definie useful vars
-final_path="/opt/yunohost/$app"
-home_path="/home/$app"
+ynh_backup "$install_dir"
 
-# backup source & conf files
-ynh_backup "$final_path"
-ynh_backup "$home_path"
+#=================================================
+# BACKUP THE DATA DIR
+#=================================================
+
+# NB: /var/log is not backuped during safety-backup-before-upgrades
+ynh_backup "$data_dir"
+
+#=================================================
+# BACKUP SYSTEM CONFIGURATION
+#=================================================
+
 ynh_backup "/etc/nginx/conf.d/$domain.d/$app.conf"
-ynh_backup "/etc/sudoers.d/$app"
-ynh_backup "/etc/systemd/system/$app@$app.service"
+
+ynh_backup "/etc/systemd/system/${app}.service"
+
+ynh_backup "/etc/logrotate.d/$app"
+
+#ynh_backup "/etc/fail2ban/jail.d/$app.conf"
+#ynh_backup "/etc/fail2ban/filter.d/$app.conf"
+
+#=================================================
+# BACKUP VARIOUS FILES
+#=================================================
+
+# NB: /var/log is not backuped during safety-backup-before-upgrades, same as $data_dir
+ynh_backup "/var/log/$app/"
+
+#=================================================
+# BACKUP THE POSTGRESQL DATABASE
+#=================================================
+#ynh_print_info "Backing up the PostgreSQL database..."
+
+#ynh_psql_dump_db > db.sql
+
+#=================================================
+# END OF SCRIPT
+#=================================================
+
+ynh_print_info "Backup script completed for $app. (YunoHost will then actually copy those files to the archive)."

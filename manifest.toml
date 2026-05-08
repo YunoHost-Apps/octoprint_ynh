@@ -70,5 +70,5 @@ ram.runtime = "50M"
     main.default = 5000
 
     [resources.apt]
-    packages = "python3, python3-venv, python3-dev, python3-ldap"
+    packages = "python3, python3-venv, python3-dev, libsasl2-dev, libldap2-dev, libssl-dev"
 

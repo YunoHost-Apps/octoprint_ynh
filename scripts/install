@@ -53,7 +53,7 @@ ynh_hide_warnings ynh_exec_as_app $install_dir/venv/bin/octoprint user add $admi
 
 # Install the ldap plugin
 ynh_setup_source --dest_dir="$install_dir" --source_id="ldap"
-ynh_hide_warnings ynh_exec_as_app "$install_dir"/venv/bin/pip install --no-build-isolation "$install_dir"/ldap.zip
+#ynh_hide_warnings ynh_exec_as_app "$install_dir"/venv/bin/pip install --no-build-isolation "$install_dir"/ldap.zip
 ynh_safe_rm "$install_dir"/ldap.zip
 
 #=================================================

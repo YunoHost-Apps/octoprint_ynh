@@ -51,7 +51,7 @@ ynh_script_progression "Updating plugins..."
 
 # Install the ldap plugin
 ynh_setup_source --dest_dir="$install_dir" --source_id="ldap"
-ynh_hide_warnings ynh_exec_as_app "$install_dir"/venv/bin/pip install "$install_dir"/ldap.zip
+ynh_hide_warnings ynh_exec_as_app "$install_dir"/venv/bin/pip install --no-build-isolation "$install_dir"/ldap.zip
 ynh_safe_rm "$install_dir"/ldap.zip
 
 #=================================================
@@ -73,7 +73,7 @@ yunohost service add "${app}" --description="OctoPrint main service" --log="/var
 #=================================================
 ynh_script_progression "Starting $app's systemd services..."
 
-ynh_systemctl --service="${app}" --action="start"
+ynh_systemctl --service="${app}" --action="start" --wait_until="Initializing the file metadata for"
 
 #=================================================
 # END OF SCRIPT

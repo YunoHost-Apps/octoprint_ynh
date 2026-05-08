@@ -75,7 +75,7 @@ yunohost service add "${app}" --description="OctoPrint main service" --log="/var
 #=================================================
 ynh_script_progression "Starting $app's systemd services..."
 
-ynh_systemctl --service="${app}" --action="start"
+ynh_systemctl --service="${app}" --action="start" --wait_until="Initializing the file metadata for"
 
 #=================================================
 # END OF SCRIPT

@@ -62,6 +62,7 @@ ram.runtime = "50M"
     [resources.install_dir]
 
     [resources.data_dir]
+    subdirs = [ "upload", "timelapse", "watched"]
 
     [resources.permissions]
     main.url = "/"

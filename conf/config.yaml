@@ -1,3 +1,7 @@
+folder:
+  timelapse: __DATA_DIR__/timelapse
+  uploads: __DATA_DIR__/upload
+  watched: __DATA_DIR__/watched
 plugins:
   auth_ldap:
     _config_version: 3
@@ -19,4 +23,6 @@ server:
     url: http://plugins.octoprint.org/blacklist.json
   port: 5002
   secretKey: __KEY__
+  seenWizards:
+    tracking: null
 

@@ -1,187 +1,22 @@
+plugins:
+  auth_ldap:
+    _config_version: 3
+    auth_password: __PASSWORD__
+    auth_user: uid=__ADMIN__,ou=users,dc=yunohost,dc=org
+    search_base: ou=users,dc=yunohost,dc=org
+    search_filter: (&(objectclass=posixAccount)(uid=%s)(permission=cn=__APP__.main,ou=permission,dc=yunohost,dc=org))
+    uri: ldap://localhost:389
 server:
-  # Use this option to define the host to which to bind the server, defaults to "0.0.0.0" (= all
-  # interfaces)
-  host: 127.0.0.1
-
-  # Use this option to define the port to which to bind the server, defaults to 5000
-  port: __PORT__
-
-  # If this option is true, OctoPrint will show the First Run wizard and set the setting to
-  # false after that completes
   firstRun: false
-
-  # If this option is true, OctoPrint will enable safe mode on the next server start and
-  # reset the setting to false
-  startOnceInSafeMode: false
-
-  # Set this to true to make OctoPrint ignore incomplete startups. Helpful for development.
-  ignoreIncompleteStartup: false
-
-  # Secret key for encrypting cookies and such, randomly generated on first run
+  host: 127.0.0.1
+  onlineCheck:
+    enabled: false
+    host: 9.9.9.9
+    interval: 300
+    port: 53
+  pluginBlacklist:
+    enabled: false
+    url: http://plugins.octoprint.org/blacklist.json
+  port: 5002
   secretKey: __KEY__
 
-  # Settings if OctoPrint is running behind a reverse proxy (haproxy, nginx, apache, ...).
-  # These are necessary in order to make OctoPrint generate correct external URLs so
-  # that AJAX requests and download URLs work, and so that client IPs are read correctly.
-  reverseProxy:
-
-    # The request header from which to determine the URL prefix under which OctoPrint
-    # is served by the reverse proxy
-    prefixHeader: X-Script-Name
-
-    # The request header from which to determine the scheme (http or https) under which
-    # a specific request to OctoPrint was made to the reverse proxy
-    schemeHeader: X-Scheme
-
-    # The request header from which to determine the host under which OctoPrint
-    # is served by the reverse proxy
-    hostHeader: X-Forwarded-Host
-
-    # Use this option to define an optional URL prefix (with a leading /, so absolute to your
-    # server's root) under which to run OctoPrint. This should only be needed if you want to run
-    # OctoPrint behind a reverse proxy under a different root endpoint than `/` and can't configure
-    # said reverse proxy to send a prefix HTTP header (X-Script-Name by default, see above) with
-    # forwarded requests.
-    prefixFallback:
-
-    # Use this option to define an optional forced scheme (http or https) under which to run
-    # OctoPrint. This should only be needed if you want to run OctoPrint behind a reverse
-    # proxy that also does HTTPS determination but can't configure said reverse proxy to
-    # send a scheme HTTP header (X-Scheme by default, see above) with forwarded requests.
-    schemeFallback:
-
-    # Use this option to define an optional forced host under which to run OctoPrint. This should
-    # only be needed if you want to run OctoPrint behind a reverse proxy with a different hostname
-    # than OctoPrint itself but can't configure said reverse proxy to send a host HTTP header
-    # (X-Forwarded-Host by default, see above) with forwarded requests.
-    hostFallback:
-
-    # List of trusted proxy servers for which to ignore the IP address when trying to determine
-    # the connecting client's IP address. A reverse proxy on the same machine as OctoPrint (e.g. as
-    # found on OctoPi) will be handled correctly by the default setting of 127.0.0.1 and ::1, further
-    # proxies in front of that you'll have to add yourself.
-
-    # List of trusted proxy servers for which to ignore the IP address when trying to determine
-    # the connecting client's IP address. A reverse proxy on the same machine as OctoPrint (e.g. as
-    # found on OctoPi) will be handled correctly by default through `trustLocalhostProxies`, further
-    # proxies in front of that you'll have to add yourself here.
-    trustedProxies: []
-
-    # Whether to trust the local machine to act as a reverse proxy. Defaults to true, will ensure
-    # that `127.0.0.0/8` and `::1` will always be considered to be included in `trustedProxies`. If
-    # you want to explicitly disable trusting the local machine, set this to false and don't include
-    # the local machine in trustedProxies (as in, don't include "127.0.0.1", "127.0.0.0/8" or "::1").
-    trustLocalhostProxies: true
-
-  # Whether to allow OctoPrint to be embedded in a frame or not. Note that depending on your setup you might
-  # have to set SameSite to None, Secure to true and serve OctoPrint through a reverse proxy that enables https
-  # for cookies and thus logging in to work
-  allowFraming: false
-
-  # Settings for further configuration of the cookies that OctoPrint sets (login, remember me, ...)
-  cookies:
-    # SameSite setting to use on the cookies. Possible values are None, Lax and Strict. Defaults to not set but
-    # be advised that many browsers now default to Lax unless set as Secure, explicitly setting the cookie type
-    # here and served over https, which causes issues with embedding OctoPrint in frames.
-    #
-    # See also https://www.chromestatus.com/feature/5088147346030592,
-    # https://www.chromestatus.com/feature/5633521622188032 and issue #3482
-    samesite: lax
-
-    # Whether to set the Secure flag to true on cookies. Defaults to false. Only set to true if you are running
-    # OctoPrint behind a reverse proxy taking care of SSL termination.
-    secure: false
-
-  # Settings for file uploads to OctoPrint, such as maximum allowed file size and
-  # header suffixes to use for streaming uploads. OctoPrint does some nifty things internally in
-  # order to allow streaming of large file uploads to the application rather than just storing
-  # them in memory. For that it needs to do some rewriting of the incoming upload HTTP requests,
-  # storing the uploaded file to a temporary location on disk and then sending an internal request
-  # to the application containing the original filename and the location of the temporary file.
-  uploads:
-
-    # Maximum size of uploaded files in bytes, defaults to 1GB.
-    maxSize: 1073741824
-
-    # Suffix used for storing the filename in the file upload headers when streaming uploads.
-    nameSuffix: name
-
-    # Suffix used for storing the path to the temporary file in the file upload headers when
-    # streaming uploads.
-    pathSuffix: path
-
-  # Maximum size of requests other than file uploads in bytes, defaults to 100KB.
-  maxSize: 102400
-
-  # Commands to restart/shutdown octoprint or the system it's running on
-  commands:
-
-    # Command to restart OctoPrint, defaults to being unset
-    serverRestartCommand: sudo service octoprint restart
-
-    # Command to restart the system OctoPrint is running on, defaults to being unset
-    systemRestartCommand: sudo shutdown -r now
-
-    # Command to shut down the system OctoPrint is running on, defaults to being unset
-    systemShutdownCommand: sudo shutdown -h now
-
-    # pip command associated with OctoPrint, used for installing plugins and updates,
-    # if unset (default) the command will be autodetected based on the current python
-    # executable - unless you have a really special setup this is the right way to do
-    # it and there should be no need to ever even touch this setting
-    localPipCommand: None
-
-  # Configuration of the regular online connectivity check
-  onlineCheck:
-    # whether the online check is enabled, defaults to false due to valid privacy concerns
-    enabled: false
-
-    # interval in which to check for online connectivity (in seconds)
-    interval: 300
-
-    # DNS host against which to check (default: 8.8.8.8 aka Google's DNS)
-    host: 9.9.9.9
-
-    # DNS port against which to check (default: 53 - the default DNS port)
-    port: 53
-
-  # Configuration of the plugin blacklist
-  pluginBlacklist:
-    # whether use of the blacklist is enabled, defaults to false
-    enabled: false
-
-    # the URL from which to fetch the blacklist
-    url: http://plugins.octoprint.org/blacklist.json
-
-    # time to live of the cached blacklist, in seconds (default: 15 minutes)
-  #  ttl: 15 * 60
-
-  # Settings of when to display what disk space warning
-  diskspace:
-
-    # Threshold (bytes) after which to consider disk space becoming sparse,
-    # defaults to 500MB
-    warning: 63488000
-
-    # Threshold (bytes) after which to consider disk space becoming critical,
-    # defaults to 200MB
-    critical: 209715200
-
-  # Configuration of the preemptive cache
-  preemptiveCache:
-
-    # which server paths to exclude from the preemptive cache
-    exceptions:
-  #  - /some/path
-
-    # How many days to leave unused entries in the preemptive cache config
-    until: 7
-
-  # Configuration of the client IP check to warn about connections from external networks
-  ipCheck:
-
-    # whether to enable the check, defaults to true
-    enabled: true
-
-    # additional non-local subnets to consider trusted, in CIDR notation, e.g. "192.168.1.0/24"
-    trustedSubnets: []

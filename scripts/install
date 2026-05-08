@@ -16,6 +16,9 @@ admin_mail=$(ynh_user_get_info --username=$admin --key=mail)
 key=$(ynh_string_random --length=45 | base64)
 ynh_app_setting_set --key=key --value=$key
 
+# Not saved by default
+ynh_app_setting_set --key=password --value="$password"
+
 #=================================================
 # APP CONFIG FILES
 #=================================================
@@ -40,6 +43,18 @@ popd
 ynh_config_add_logrotate
 touch /var/log/$app/$app.log
 chown -R $app: "/var/log/$app"
+
+#=================================================
+# INITIALIZE APP
+#=================================================
+ ynh_script_progression "Creating the admin account and installing plugins..."
+
+ynh_hide_warnings ynh_exec_as_app $install_dir/venv/bin/octoprint user add $admin --password $password --admin
+
+# Install the ldap plugin
+ynh_setup_source --dest_dir="$install_dir" --source_id="ldap"
+ynh_hide_warnings ynh_exec_as_app "$install_dir"/venv/bin/pip install "$install_dir"/ldap.zip
+ynh_safe_rm "$install_dir"/ldap.zip
 
 #=================================================
 # SYSTEM CONFIGURATION

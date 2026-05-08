@@ -23,9 +23,9 @@ ynh_systemctl --action="stop" --service="${app}"
 #=================================================
 # APP CONFIG FILES
 #=================================================
-ynh_script_progression "Updating $app's configuration files..."
+#ynh_script_progression "Updating $app's configuration files..."
 
-ynh_config_add --template="config.yaml" --destination="$install_dir/config.yaml"
+#ynh_config_add --template="config.yaml" --destination="$install_dir/config.yaml"
 
 #=================================================
 # INSTALL PYTHON DEPENDENCIES

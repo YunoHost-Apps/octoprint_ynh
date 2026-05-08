@@ -154,7 +154,7 @@ server:
     url: http://plugins.octoprint.org/blacklist.json
 
     # time to live of the cached blacklist, in seconds (default: 15 minutes)
-    ttl: 15 * 60
+  #  ttl: 15 * 60
 
   # Settings of when to display what disk space warning
   diskspace:
@@ -172,7 +172,7 @@ server:
 
     # which server paths to exclude from the preemptive cache
     exceptions:
-    - /some/path
+  #  - /some/path
 
     # How many days to leave unused entries in the preemptive cache config
     until: 7

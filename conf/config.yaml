@@ -23,3 +23,5 @@ server:
     url: http://plugins.octoprint.org/blacklist.json
   port: 5002
   secretKey: __KEY__
+  seenWizards:
+    tracking: null

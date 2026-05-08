@@ -81,4 +81,6 @@ ynh_systemctl --service="${app}" --action="start" --wait_until="Initializing the
 # END OF SCRIPT
 #=================================================
 
+cat $install_dir/config.yaml
+
 ynh_script_progression "Installation of $app completed"

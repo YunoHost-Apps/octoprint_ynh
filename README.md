@@ -18,6 +18,10 @@ Snappy web interface for your 3D printer
 <a href="https://github.com/YunoHost-Apps/octoprint_ynh/issues"><img height="100px" src="https://github.com/YunoHost/yunohost-artwork/raw/refs/heads/main/badges/neopossum-badges/badge_report_an_issue.svg"/></a>
 </div>
 
+
+## Screenshots
+![Screenshot of OctoPrint](./doc/screenshots/octoprint.png)
+
 ## 📦 Developer info
 
 [![Automatic tests level](https://apps.yunohost.org/badge/cilevel/octoprint)](https://ci-apps.yunohost.org/ci/apps/octoprint/)

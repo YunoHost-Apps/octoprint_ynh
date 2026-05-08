@@ -64,5 +64,5 @@ ram.runtime = "50M"
     main.default = 5000
 
     [resources.apt]
-    packages = "python3, python3-venv"
+    packages = "python3, python3-venv, python3-dev"
 

@@ -77,6 +77,8 @@ ynh_script_progression "Starting $app's systemd services..."
 
 ynh_systemctl --service="${app}" --action="start" --wait_until="Initializing the file metadata for" --log_path="/var/log/$app/$app.log"
 
+sleep 15
+
 #=================================================
 # END OF SCRIPT
 #=================================================

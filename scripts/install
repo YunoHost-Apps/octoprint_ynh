@@ -24,7 +24,7 @@ ynh_app_setting_set --key=password --value="$password"
 #=================================================
 ynh_script_progression "Adding $app's configuration files..."
 
-ynh_config_add --template="config.yaml" --destination="$install_dir/config.yaml"
+#ynh_config_add --template="config.yaml" --destination="$install_dir/config.yaml"
 
 #=================================================
 # INSTALL PYTHON DEPENDENCIES
@@ -47,7 +47,7 @@ chown -R $app: "/var/log/$app"
 #=================================================
 # INITIALIZE APP
 #=================================================
- ynh_script_progression "Creating the admin account and installing plugins..."
+ynh_script_progression "Creating the admin account and installing plugins..."
 
 ynh_hide_warnings ynh_exec_as_app $install_dir/venv/bin/octoprint user add $admin --password $password --admin
 

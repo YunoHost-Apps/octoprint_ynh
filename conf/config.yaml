@@ -2,14 +2,14 @@ folder:
   timelapse: __DATA_DIR__/timelapse
   uploads: __DATA_DIR__/upload
   watched: __DATA_DIR__/watched
-#plugins:
-#  auth_ldap:
-#    _config_version: 3
-#    auth_password: __PASSWORD__
-#    auth_user: uid=__ADMIN__,ou=users,dc=yunohost,dc=org
-#    search_base: ou=users,dc=yunohost,dc=org
-#    search_filter: (&(objectclass=posixAccount)(uid=%s)(permission=cn=__APP__.main,ou=permission,dc=yunohost,dc=org))
-#    uri: ldap://localhost:389
+plugins:
+  auth_ldap:
+    _config_version: 3
+    auth_password: __PASSWORD__
+    auth_user: uid=__ADMIN__,ou=users,dc=yunohost,dc=org
+    search_base: ou=users,dc=yunohost,dc=org
+    search_filter: (&(objectclass=posixAccount)(uid=%s)(permission=cn=__APP__.main,ou=permission,dc=yunohost,dc=org))
+    uri: ldap://localhost:389
 server:
   firstRun: false
   host: 127.0.0.1
@@ -18,10 +18,10 @@ server:
     host: 9.9.9.9
     interval: 300
     port: 53
-# pluginBlacklist:
-#    enabled: false
-#    url: https://plugins.octoprint.org/blacklist.json
-  port: 5002
+  pluginBlacklist:
+    enabled: false
+    url: https://plugins.octoprint.org/blacklist.json
+  port: __PORT__
   secretKey: __KEY__
   seenWizards:
     tracking: null

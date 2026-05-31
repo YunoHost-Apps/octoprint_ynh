@@ -6,7 +6,7 @@ id = "octoprint"
 name = "OctoPrint"
 description.en = "Snappy web interface for your 3D printer"
 
-version = "1.11.7~ynh3"
+version = "1.11.7~ynh4"
 
 maintainers = ["Thovi98"]
 
@@ -56,8 +56,8 @@ ram.runtime = "50M"
 
     autoupdate.strategy = "latest_github_release"
       [resources.sources.ldap]
-      url = "https://github.com/gillg/OctoPrint-LDAP/archive/841504487d7c5e634a93e4bd32c71f06b974ed36.zip"
-      sha256 = "6bbd955a2b5ddcca3447ba1815169fc32d27207b331eeea86aa408be3afcae64"
+      url = "https://github.com/gillg/OctoPrint-LDAP/archive/841504487d7c5e634a93e4bd32c71f06b974ed36.tar.gz"
+      sha256 = "c3b2a4b7a026f8cf97caf9be8e60bdc525452c49f6f276c5ddb9114b464b0d48"
       extract = false
       format = "zip"
       rename = "ldap.zip"

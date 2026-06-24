@@ -33,8 +33,6 @@ ynh_systemctl --action="stop" --service="${app}"
 ynh_script_progression "Installing Python dependencies..."
 
 pushd "$install_dir"
-    ynh_safe_rm "$install_dir/venv"
-    ynh_exec_as_app python3 -m venv "$install_dir/venv"
     ynh_hide_warnings ynh_exec_as_app "$install_dir/venv/bin/pip" install --upgrade pip
     ynh_hide_warnings ynh_exec_as_app "$install_dir/venv/bin/pip" install OctoPrint=="$(ynh_app_upstream_version)"
 

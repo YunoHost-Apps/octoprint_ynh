@@ -64,7 +64,7 @@ ram.runtime = "50M"
 
       autoupdate.upstream = "https://github.com/gillg/OctoPrint-LDAP"
       autoupdate.strategy = "latest_github_commit"
-      autoupdate.asset = ".*.zip"
+
 
     [resources.system_user]
 

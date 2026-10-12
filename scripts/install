@@ -75,6 +75,17 @@ if getent group dialout && ! id -Gn "${app}" | grep -qw "\bdialout\b" >/dev/null
 	adduser "${app}" dialout
 fi
 
+# On Raspberry, vcgencmd is used to get info about the board
+# Octoprint use it check for throttling (power lose)
+vcgencmd > /dev/null
+if [ $? -eq 0 ]; then
+    ynh_script_progression "vcgencmd found : add user to group"
+    if getent group video && ! id -Gn "${app}" | grep -qw "\bvideo\b" >/dev/null; then
+	    # Add user to video group so it can access vcgencmd.
+	    adduser "${app}" video
+    fi
+fi
+
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================

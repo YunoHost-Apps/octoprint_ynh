@@ -6,7 +6,7 @@ id = "octoprint"
 name = "OctoPrint"
 description.en = "Snappy web interface for your 3D printer"
 
-version = "2.0.1~ynh1"
+version = "2.0.2~ynh1"
 
 maintainers = ["Thovi98"]
 
@@ -50,8 +50,8 @@ ram.runtime = "50M"
     [resources.sources]
     # Only used for auto-updater
     [resources.sources.main]
-    url = "https://github.com/OctoPrint/OctoPrint/archive/refs/tags/2.0.1.tar.gz"
-    sha256 = "7cf9bb23752fb8b9a8485bf0d7492eb8b4969d9b2b64ae0a875f8ebae4ef4d73"
+    url = "https://github.com/OctoPrint/OctoPrint/archive/refs/tags/2.0.2.tar.gz"
+    sha256 = "ee7606084e625c04d0de8823cfbf1bdbb104a67f6eb35acac1a4a1811c6221b5"
     prefetch = false
 
     autoupdate.strategy = "latest_github_release"
